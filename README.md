@@ -1,1 +1,1 @@
-# LiriBotNow
+# LiriBot
