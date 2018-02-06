@@ -121,7 +121,7 @@ var pick = function(caseData, functionData) {
             randomMe(functionData);
             break;
         default:
-            logOutput("LIRI don't know!")
+            logOutput("LIRI don't know!");
     }
 }
 
