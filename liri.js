@@ -5,6 +5,8 @@ var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require("fs");
+var log = require('simple-node-logger').createSimpleFileLogger('./log.txt');
+log.setLevel('all');
 
 // Function for Twitter tweets
 var tweetMe = function() {
@@ -14,13 +16,14 @@ var tweetMe = function() {
     var params = { screen_name: 'ughh_give' };
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (!error) {
-            // console.log(tweets);
+
             for (i = 0; i < tweets.length; i++) {
-                console.log(' ');
-                console.log(tweets[i].created_at);
-                console.log(tweets[i].text);
-                console.log();
+                logOutput(' ');
+                logOutput(tweets[i].created_at);
+                logOutput(tweets[i].text);
             }
+        } else {
+            logOutput(error);
         }
     });
 }
@@ -40,17 +43,17 @@ var spotifyMe = function(songName) {
 
     spotify.search({ type: 'track', query: songName }, function(err, data) {
         if (err) {
-            return console.log('Error occurred: ' + err);
+            return logOutput('Error occurred: ' + err);
         }
 
         var songs = data.tracks.items;
         for (var i = 0; i < songs.length; i++) {
-            console.log(i);
-            console.log('artist(s): ' + songs[i].artists.map(artistNames));
-            console.log('song name: ' + songs[i].name);
-            console.log('preview song: ' + songs[i].preview_url);
-            console.log('album: ' + songs[i].album.name);
-            console.log('---------------------------------------------------')
+            logOutput(i);
+            logOutput('artist(s): ' + songs[i].artists.map(artistNames));
+            logOutput('song name: ' + songs[i].name);
+            logOutput('album: ' + songs[i].album.name);
+            logOutput('preview song: ' + songs[i].preview_url);
+            logOutput('---------------------------------------------------')
         }
     });
 }
@@ -67,24 +70,23 @@ var movieMe = function(movieTitle) {
 
             var movie = JSON.parse(body);
 
-            console.log();
-            console.log("Movie Title: " + movie.Title);
-            console.log("Release Year: " + movie.Year);
-            console.log("IMDB Rating: " + movie.imdbRating);
-            console.log("Country Produced In: " + movie.Country);
-            console.log("Language: " + movie.Language);
-            console.log("Plot: " + movie.Plot);
-            console.log("Actors: " + movie.Actors);
-
+            logOutput();
+            logOutput("Movie Title: " + movie.Title);
+            logOutput("Release Year: " + movie.Year);
+            logOutput("IMDB Rating: " + movie.imdbRating);
             for (var i = 0; i < movie.Ratings.length; i++) {
                 if (movie.Ratings[i].Source === "Rotten Tomatoes") {
-                    console.log("* Rotten Tomatoes Rating:     " + movie.Ratings[i].Value);
+                    logOutput("* Rotten Tomatoes Rating:     " + movie.Ratings[i].Value);
                     if (movie.Ratings[i].Website !== undefined) {
-                        console.log("* Rotten Tomatoes URL:        " + movie.Ratings[i].Website);
+                        logOutput("* Rotten Tomatoes URL:        " + movie.Ratings[i].Website);
                     }
                 }
             }
-            console.log();
+            logOutput("Country Produced In: " + movie.Country);
+            logOutput("Language: " + movie.Language);
+            logOutput("Actors: " + movie.Actors);
+            logOutput("Plot: " + movie.Plot);
+            logOutput();
         }
     });
 }
@@ -109,7 +111,7 @@ var pick = function(caseData, functionData) {
         case 'my-tweets':
             tweetMe();
             break;
-        case 'spotify-this-song':
+        case 'spotify-this':
             spotifyMe(functionData);
             break;
         case 'movie-this':
@@ -119,12 +121,18 @@ var pick = function(caseData, functionData) {
             randomMe(functionData);
             break;
         default:
-            console.log("LIRI don't know!")
+            logOutput("LIRI don't know!")
     }
 }
 
 var runThis = function(argOne, argTwo) {
     pick(argOne, argTwo);
 };
+
+// Function that logs the results to log.txt
+function logOutput(logText) {
+    log.info(logText);
+    console.log(logText);
+}
 
 runThis(process.argv[2], process.argv[3]);
