@@ -1,9 +1,9 @@
 # LiriBot-node.js
-___
-LIRI is a Language Interpretation and Recognition Interface. Use LIRI to get your latest tweets, find out about a song, or a movie, or just choose a random action from your own random file.
 
-## Installs
+LIRI is a Language Interpretation and Recognition Interface. Use LIRI to get your latest tweets, find out about a song, or a movie, or just choose a random action from your own random file.
 ___
+## Installs
+
 The package.json lists dependent node packages, but for your convenvice, these are the ones to install.
 
 ### Spotify
@@ -20,9 +20,9 @@ The package.json lists dependent node packages, but for your convenvice, these a
 
 ### Simple Node Logger
 `npm install simple-node-logger`
-
-## Get Started
 ___
+## Get Started
+
 Here's a quick rundown of the commands you can use in LIRI.
 
 ### Get Tweets
