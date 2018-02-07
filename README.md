@@ -33,12 +33,12 @@ Retrieves up to your latest 20 tweets:
 ### Get Song Info
 Retrieves song information for a track:
 
-`node liri.js spotify-this "*American Woman*"`
+`node liri.js spotify-this "American Woman"`
 
 ### Get Movie Info
 Retrieves movie information for a movie:
 
-`node liri.js movie-this "*Get Out*"`
+`node liri.js movie-this "Get Out"`
 
 ### Get Random Info
 Gets random text inside a file and does what it says:
